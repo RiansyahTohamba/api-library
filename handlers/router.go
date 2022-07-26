@@ -29,7 +29,7 @@ func Start(bookRepo *repository.BookRepository, journalRepo *repository.JournalR
 		router.POST("/journal/", journal.Create)
 		router.GET("/journals", journal.List)
 		router.GET("/journal/:id", journal.Show)
-		router.PUT("journal/", journal.Update)
+		router.PUT("/journal/", journal.Update)
 		router.DELETE("/journal/:id", journal.Delete)
 	}
 
