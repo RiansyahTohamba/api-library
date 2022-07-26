@@ -7,27 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type journalAPI struct {
-	jrepo *repository.JournalRepo
-}
-
-func NewJournal(jrepo *repository.JournalRepo) *journalAPI {
-	return &journalAPI{jrepo}
-}
-
-func (ja *journalAPI) Create(ctx *gin.Context){
-
-}
-
-func (ja *journalAPI) Update(ctx *gin.Context){
-
-}
-
-func (ja *journalAPI) Delete(ctx *gin.Context)  {
-	
-}
-
-
 func Start(bookRepo *repository.BookRepository, journalRepo *repository.JournalRepo) {
 	book := NewBook(bookRepo)
 	journal := NewJournal(journalRepo)
@@ -39,18 +18,21 @@ func Start(bookRepo *repository.BookRepository, journalRepo *repository.JournalR
 	config.AllowCredentials = true
 	config.AddAllowHeaders("Authorization")
 	router.Use(cors.New(config))
+	{
+		router.POST("/book/", book.Create)
+		router.GET("/books", book.List)
+		router.GET("/book/:id", book.Show)
+		router.PUT("/book/", book.Update)
+		router.DELETE("/book/:id", book.Delete)
+	}
+	{
+		router.POST("/journal/", journal.Create)
+		router.GET("/journals", journal.List)
+		router.GET("/journal/:id", journal.Show)
+		router.PUT("journal/", journal.Update)
+		router.DELETE("/journal/:id", journal.Delete)
+	}
 
-	// create book
-	router.POST("/book/", book.Create)
-	// get list of books
-	router.GET("/book/list", book.List)
-	// get one book
-	router.GET("/book/:id", book.Show)
-	// update book
-	router.PUT("/book/", book.Update)
-	// delete book
-	router.DELETE("/book/:id", book.Delete)
-	router.GET("",journal.)
 	router.Run()
 
 }
